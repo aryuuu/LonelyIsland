@@ -2,7 +2,9 @@
 ## Tugas Kecil II Strategi Algoritma
 
 ### Cara Kompilasi
-	javac Pulau.java
+	javac Kepulauan.java
 
 ### Cara run
-	java Pulau [nama file input]
+	java Kepulauan [nama file input]
+
+
