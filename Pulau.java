@@ -75,34 +75,101 @@ public class Pulau{
 		}
 	}
 
-	public void Telusuri(int start, int dest, LinkedList<Integer> visited){
+	public void Telusuri(int start, int dest, Stack currentPath, Stack whitelist){
 		//update daftar pulau yang sudah dikunjungi
-		visited.add(start);
+		// visited.add(start);
+		// currentPath.push(start);
+		// System.out.println("currently visiting " + dest);
 
-		if(this.isConnected(start,dest) && !visited.contains(dest)){
-			Telusuri(dest, 1, visited);
+		if(this.isConnected(start,dest) && !currentPath.contains(dest)){
+			//catat path
+			// path += " " + Integer.toString(dest);
+			// visited.push(dest);
+			//update path
+			currentPath.push(dest);
+			//update whitelist
+			whitelist.push(start);
+			//white supremacy
+			
+			// System.out.println(currentPath);
+			// System.out.println(visited);
+
+			Telusuri(dest, 1, currentPath, whitelist);
+
 		} else {
 			if(dest < this.nPulau){
-				Telusuri(start, dest+1, visited);
+				Telusuri(start, dest+1, currentPath, whitelist);
 			} else {
-				this.DeadEnd.add(start);
-				if(start < nPulau){
-					Telusuri(start+1, 1, visited);
+				if(!whitelist.contains(start)){
+					this.DeadEnd.add(start);
+					System.out.println("Oooops stuck in " + start);
+					System.out.println("Let's see the path we've taken >> " + currentPath);
 				}
+				
+				// System.out.println("we have visited "+visited);
+				// System.out.println("Current path " + path);
+				int prevDest = (int) currentPath.pop();
+				// visited.pop();
+				
+				
+				
+				// if(!currentPath.isEmpty()){
+					// int prevRoot = (int) currentPath.peek();
+					// System.out.println("backtracking to "+prevRoot);
+					// System.out.println("prevDest "+prevDest);
+					// System.out.println("nPulau "+this.nPulau);
+
+					// if(!(prevRoot == this.start && prevDest < this.nPulau)){
+					// 	Telusuri(prevRoot, prevDest+1, visited, currentPath);						
+					// }
+					while(!currentPath.isEmpty()){
+						int prevRoot = (int) currentPath.peek();
+
+						//debugging part
+						// System.out.println("backtracking to "+prevRoot);
+						// System.out.println("whitelist : " + whitelist);
+
+						if(prevDest == (int) whitelist.peek()){
+								whitelist.pop();
+								// System.out.println("whitelist "+whitelist);
+								//congrats, you just lost your white supremacy
+							}
+						
+						if(prevDest < this.nPulau){
+							Telusuri(prevRoot, prevDest+1, currentPath, whitelist);
+						} else {
+							prevDest = (int) currentPath.pop();
+							// visited.pop();
+							// prevRoot = currentPath.peek();
+							
+						}
+
+					}
+
+					// Telusuri(prevRoot, prevDest+1, visited, currentPath);
+				// }
 			}
 
 		}
 	}
 
 	public void Caller(){
-		LinkedList<Integer> visited = new LinkedList<Integer>();
-		this.Telusuri(1,1,visited);
+
+		// Stack<Integer> visited = new Stack<Integer>();
+		Stack<Integer> currentPath = new Stack<Integer>();
+		Stack<Integer> whitelist = new Stack<Integer>();
+		// visited.add(this.start);
+		currentPath.push(this.start);
+		// whitelist.push(this.start);
+		// String path = Integer.toString(this.start);
+		this.Telusuri(this.start, 1, currentPath, whitelist);
+
 	}
 
 
 	public static void main(String[] args) throws Exception{
 		Pulau java = new Pulau(args[0]);
-		System.out.println("Jumlah pulau " + java.getnPulau());
+		// System.out.println("Jumlah pulau " + java.getnPulau());
 		java.Caller();
 		java.getDeadEnd();
 	}
