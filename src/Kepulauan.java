@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Pulau{
+public class Kepulauan{
 	//member data
 	private int nPulau;
 	private int nJembatan;
@@ -11,7 +11,7 @@ public class Pulau{
 	private Set<Integer> DeadEnd;
 
 	//ctor
-	Pulau(String fileName) throws Exception{
+	Kepulauan(String fileName) throws Exception{
 		File sauce = new File(fileName);
 		BufferedReader br = new BufferedReader(new FileReader(sauce));
 
@@ -168,9 +168,13 @@ public class Pulau{
 
 
 	public static void main(String[] args) throws Exception{
-		Pulau java = new Pulau(args[0]);
+		Kepulauan java = new Kepulauan(args[0]);
 		// System.out.println("Jumlah pulau " + java.getnPulau());
+		long startTime = System.nanoTime();
 		java.Caller();
+		long endTime = System.nanoTime();
+		long totalTime = (endTime-startTime);
+		System.out.println("The entire process take " + totalTime + " ns");
 		java.getDeadEnd();
 	}
 
