@@ -76,7 +76,7 @@ public class Archipelago{
 			// System.out.println(n + " " + visited);
 
 		}
-		if( visited.getLast() == start && this.Jembatan[visited.getLast()].isEmpty() ){
+		if( visited.getLast() == start && this.Jembatan[visited.getLast()].isEmpty()){
 			// System.out.print(" << ");
 			DeadEnd.add(start);
 		}
@@ -93,7 +93,7 @@ public class Archipelago{
 		//
 	}
 
-	
+
 
 	public static void main(String[] args) throws Exception{
 	
